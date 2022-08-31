@@ -1,13 +1,15 @@
 use strict;
+use File::Basename;
 
 #todo
 # cl params
 # multiple directories or playlist
 
 my $shuffle="yes";
+if ($ARGV[0] =~ /^no.*sh/i){$shuffle="no";my $q=shift(@ARGV)};
 my $dir=$ARGV[0];
 
-my $out=`find '$dir' -type f -iname '*.mp3' -or -iname '*.m4a' -not -path '*/.*'`;
+my $out=`find '$dir' -type f \\\( -iname '*.mp3' -or -iname '*.m4a' \\\) -not -path '*/.*'`;
 my @mp3=split(/\n/,$out);
 if (scalar(@mp3)==0){die "no files found\n"};
 
@@ -20,8 +22,9 @@ print "$div\n$dir"."\n$div\n";
 foreach my $m (@mp3)
   {
     $n++;
-    my $disp=$m;
-    $disp=~s/$dir//; #trim off directory
+    #my $disp=$m;
+    #$disp=~s/$dir//; #trim off directory, basename more repliable
+    my $disp=basename($m);
     my $inf=`afinfo --brief \"$m\"`;
 
     #grab time using afinfo
