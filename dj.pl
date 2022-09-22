@@ -17,14 +17,17 @@ if ($shuffle eq "yes"){fisher_yates_shuffle( \@mp3 )};
 
 my $n=0;
 my $div="="x80;
-print "$div\n$dir"."\n$div\n";
+my $dirdisp=$dir; #clean up for display
+$dirdisp=~s/[^[:print:]\r\n]/%/g;
+print "$div\n$dirdisp"."\n$div\n";
 
 foreach my $m (@mp3)
   {
     $n++;
     #my $disp=$m;
-    #$disp=~s/$dir//; #trim off directory, basename more repliable
+    #$disp=~s/$dir//; #trim off directory, basename more replicable
     my $disp=basename($m);
+    $disp=~s/[^[:print:]\r\n]/%/g; #some weird unicode chars(?) generate line feeds
     my $inf=`afinfo --brief \"$m\"`;
 
     #grab time using afinfo
