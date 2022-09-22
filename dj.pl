@@ -19,7 +19,13 @@ my $n=0;
 my $div="="x80;
 my $dirdisp=$dir; #clean up for display
 $dirdisp=~s/[^[:print:]\r\n]/%/g;
-print "$div\n$dirdisp"."\n$div\n";
+print "$div\n$dirdisp"."\n";
+#todo - call jp2a here:
+if (-e $dir."cover.jpg")
+  {
+    print "cover.jpg\n"
+  }
+print "$div\n";
 
 foreach my $m (@mp3)
   {
